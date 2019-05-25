@@ -11,7 +11,6 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         //ajax请求我们才捕捉异常
-        if ($request->ajax()){
             // 将方法拦截到自己的ExceptionReport
             $reporter = ExceptionReport::make($exception);
             if ($reporter->shouldReturn()){
@@ -24,7 +23,5 @@ class Handler extends ExceptionHandler
                 //线上环境,未知错误，则显示500
                 return $reporter->prodReport();
             }
-        }
-        return parent::render($request, $exception);
     }
 }

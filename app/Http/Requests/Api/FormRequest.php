@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 
 class FormRequest extends BaseFormRequest
@@ -12,5 +13,7 @@ class FormRequest extends BaseFormRequest
         //true代表权限认证通过
         return true;
     }
+
+
 }
 

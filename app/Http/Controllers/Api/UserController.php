@@ -21,14 +21,24 @@ class UserController extends Controller
     }
     //用户注册
     public function store(UserRequest $request){
-        User::create($request);
-        return $this->setStatusCode(201)->success('用户注册成功');
+        User::create($request->all());
+        $token = Auth::guard('api')->attempt(['name'=>$request->name,'password'=>$request->password]);
+        if($token) {
+            return $this->setStatusCode(201)->success([
+                'name' => $request->name,
+                'avatar' => $request->avatar,
+                'token' => 'bearer ' . $token
+            ]);
+        }
+        return $this->failed('注册失败',400);
     }
     //用户登录
     public function login(Request $request){
         $token = Auth::guard('api')->attempt(['name'=>$request->name,'password'=>$request->password]);
+        $user = Auth::guard('api')->user();
+        $user['token'] = 'bearer ' . $token;
         if($token) {
-            return $this->setStatusCode(201)->success(['token' => 'bearer ' . $token]);
+            return $this->setStatusCode(200)->success($user);
         }
         return $this->failed('账号或密码错误',400);
     }
@@ -41,5 +51,13 @@ class UserController extends Controller
     public function info(){
         $user = Auth::guard('api')->user();
         return $this->success(new UserResource($user));
+    }
+
+
+    public function update(Request $request,User $user){
+        $data = $request->all();
+        $this->authorize('update',$user);
+        $user->update($data);
+        return $this->setStatusCode(201)->success('成功');
     }
 }
