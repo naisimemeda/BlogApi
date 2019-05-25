@@ -55,9 +55,8 @@ class UserController extends Controller
 
 
     public function update(Request $request,User $user){
-        $data = $request->all();
         $this->authorize('update',$user);
-        $user->update($data);
+        $user->update($request->all());
         return $this->setStatusCode(201)->success('成功');
     }
 }

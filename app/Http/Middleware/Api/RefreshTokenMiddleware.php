@@ -27,15 +27,15 @@ class RefreshTokenMiddleware extends BaseMiddleware
     {
         // 检查此次请求中是否带有 token，如果没有则抛出异常。
         $this->checkForToken($request);
-//         使用 try 包裹，以捕捉 token 过期所抛出的 TokenExpiredException  异常
+        // 使用 try 包裹，以捕捉 token 过期所抛出的 TokenExpiredException  异常
         try {
-            // 检测用户的登录状态，如果正常则通过
+            //将使用token进行登录，如果token过期，则抛出 TokenExpiredException 异常
             if ($this->auth->parseToken()->authenticate()) {
                 return $next($request);
             }
             throw new UnauthorizedHttpException('jwt-auth', '未登录');
         } catch (TokenExpiredException $exception) {
-            // 此处捕获到了 token 过期所抛出的 TokenExpiredException 异常，我们在这里需要做的是刷新该用户的 token 并将它添加到响应头中
+            // 此处捕获到了 token 过期所抛出的 TokenExpiredException 异常，刷新该用户的 token 并将它添加到响应头中
             try {
                 // 刷新用户的 token
                 $token = $this->auth->refresh();

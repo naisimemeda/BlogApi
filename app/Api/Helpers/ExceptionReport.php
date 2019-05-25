@@ -52,7 +52,7 @@ class ExceptionReport
         ModelNotFoundException::class => ['该模型未找到',404],
         AuthorizationException::class => ['没有此权限',403],
         ValidationException::class => ['参数错误',400],
-        UnauthorizedHttpException::class=>['未登录或登录状态失效',422],
+        UnauthorizedHttpException::class=>['未登录或登录状态失效',434],
         TokenInvalidException::class=>['token不正确',400],
         NotFoundHttpException::class=>['没有找到该页面',404],
         MethodNotAllowedHttpException::class=>['访问方式不正确',405],
