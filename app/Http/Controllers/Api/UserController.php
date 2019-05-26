@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
@@ -58,5 +59,22 @@ class UserController extends Controller
         $this->authorize('update',$user);
         $user->update($request->all());
         return $this->setStatusCode(201)->success('成功');
+    }
+
+    public function UploadAvatar(Request $request,ImageUploadHandler $uploader){
+        $request->validate([
+            'avatar' => 'required|mimes:jpeg,bmp,png,gif',
+        ]);
+        $user = Auth::guard('api')->user();
+        $data = $request->all();
+        if($request->avatar){
+            $request = $uploader->save($request->avatar,'avatars',$user->id,416);
+            if($request){
+                $data['avatar'] = $request['path'];
+                $this->authorize('update',$user);
+                $user->update($data);
+                return $this->success($data);
+            }
+        }
     }
 }

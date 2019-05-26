@@ -27,5 +27,6 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         Route::get('/users/info','UserController@info')->name('users.info');
         //修改个人资料
         Route::post('/users/{user}','UserController@update')->name('users.update');
+        Route::post('/upload/avatar','UserController@UploadAvatar')->name('users.avatar');
     });
 });
