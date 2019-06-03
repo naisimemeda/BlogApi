@@ -11,15 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index(){
-        //3个用户为一页
-        $users = User::paginate(3);
-        return $this->success($users);
-    }
-    //返回单一用户信息
-    public function show(User $user){
-        return $this->success($user);
-    }
     //用户注册
     public function store(UserRequest $request){
         User::create($request->all());
@@ -54,8 +45,14 @@ class UserController extends Controller
         return $this->success(new UserResource($user));
     }
 
+    public function update(UserRequest $request,User $user){
+        $this->authorize('update',$user);
+        $user->update($request->all());
+        return $this->setStatusCode(201)->success('成功');
+    }
 
-    public function update(Request $request,User $user){
+    public function Paword(Request $request){
+        $user = Auth::guard('api')->user();
         $this->authorize('update',$user);
         $user->update($request->all());
         return $this->setStatusCode(201)->success('成功');

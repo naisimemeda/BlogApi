@@ -28,5 +28,10 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         //修改个人资料
         Route::post('/users/{user}','UserController@update')->name('users.update');
         Route::post('/upload/avatar','UserController@UploadAvatar')->name('users.avatar');
+        Route::post('/password','UserController@Paword')->name('users.password');
+
+        //文章
+        Route::post('/article','ArticleController@store')->name('article.store');
+
     });
 });

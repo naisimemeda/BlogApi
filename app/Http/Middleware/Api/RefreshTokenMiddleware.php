@@ -25,10 +25,11 @@ class RefreshTokenMiddleware extends BaseMiddleware
      */
     public function handle($request, Closure $next)
     {
-        // 检查此次请求中是否带有 token，如果没有则抛出异常。
-        $this->checkForToken($request);
         // 使用 try 包裹，以捕捉 token 过期所抛出的 TokenExpiredException  异常
         try {
+            // 检查此次请求中是否带有 token，如果没有则抛出异常。
+            $this->checkForToken($request);
+
             //将使用token进行登录，如果token过期，则抛出 TokenExpiredException 异常
             if ($this->auth->parseToken()->authenticate()) {
                 return $next($request);
@@ -40,8 +41,11 @@ class RefreshTokenMiddleware extends BaseMiddleware
                 // 刷新用户的 token
                 $token = $this->auth->refresh();
                 // 使用一次性登录以保证此次请求的成功
-                Auth::guard('api')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+                //Auth::guard('api')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+
+                //dd(2123);
             } catch (JWTException $exception) {
+                dd(321);
                 // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
                 throw new UnauthorizedHttpException('jwt-auth', $exception->getMessage());
             }
