@@ -14,6 +14,7 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "medz/cors": "^1.4",
+        "overtrue/laravel-lang": "~3.0",
         "tymon/jwt-auth": "1.0.0-rc.4.1"
     },
     "require-dev": {

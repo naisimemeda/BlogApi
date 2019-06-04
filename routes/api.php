@@ -22,6 +22,8 @@ Route::namespace('Api')->middleware('cors')->group(function () {
     //查看所有话题
     Route::get('/topics','TopicController@index')->name('topic.index');
     //创建话题
+    //查询单挑文章
+    Route::get('/article/{articles}','ArticleController@index')->name('article.index');
     Route::post('topics','TopicController@store')->name('topic.store');
     Route::middleware('api.refresh')->group(function () {
         Route::get('/users/info','UserController@info')->name('users.info');
@@ -30,8 +32,7 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         Route::post('/upload/avatar','UserController@UploadAvatar')->name('users.avatar');
         Route::post('/password','UserController@Paword')->name('users.password');
 
-        //文章
+        //创建文章
         Route::post('/article','ArticleController@store')->name('article.store');
-
     });
 });

@@ -15,7 +15,13 @@ class ArticleController extends Controller
           'content' => $request->get('content'),
           'user_id' => User::UserID()
         ];
-        Articles::create($data);
-        return $this->setStatusCode(201)->success('成功');
+        $res = Articles::create($data);
+        return $this->setStatusCode(201)->success($res);
+    }
+
+    public function index(Articles $articles){
+        $res = $articles->toArray();
+        $res['created_at'] = $articles->created_at->diffForHumans();
+        return $this->setStatusCode(200)->success($res);
     }
 }
