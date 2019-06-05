@@ -45,15 +45,19 @@ class UserController extends Controller
         return $this->success(new UserResource($user));
     }
 
+    public function UserInfo(User $user){
+        return $this->setStatusCode(201)->success($user->loadCount('article'));
+    }
+
     public function update(UserRequest $request,User $user){
-        $this->authorize('update',$user);
+        $this->authorize('update', $user);
         $user->update($request->all());
         return $this->setStatusCode(201)->success('成功');
     }
 
     public function Paword(Request $request){
         $user = Auth::guard('api')->user();
-        $this->authorize('update',$user);
+        $this->authorize('update', $user);
         $user->update($request->all());
         return $this->setStatusCode(201)->success('成功');
     }

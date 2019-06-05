@@ -12,4 +12,5 @@ class Articles extends Model
         'title', 'content', 'user_id', 'comment_count', 'up_count'
     ];
 
+
 }
