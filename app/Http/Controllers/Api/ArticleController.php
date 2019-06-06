@@ -6,6 +6,7 @@ use App\Http\Requests\Api\ArticleRequest;
 use App\Models\Articles;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -20,8 +21,7 @@ class ArticleController extends Controller
     }
 
     public function index(Articles $articles){
-        $res = $articles->toArray();
-        $res['created_at'] = $articles->created_at->diffForHumans();
+        $res = Articles::with(['user', 'like:user_id,avatar'])->find($articles->id);
         return $this->setStatusCode(200)->success($res);
     }
 

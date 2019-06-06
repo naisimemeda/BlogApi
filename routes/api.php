@@ -18,8 +18,12 @@ Route::namespace('Api')->middleware('cors')->group(function () {
     Route::post('/users','UserController@store')->name('users.store');
     Route::post('/login','UserController@login')->name('users.login');
     Route::get('/users','UserController@index')->name('users.index');
+    //查询单个用户 以及发布文章总数
     Route::get('/userinfo/{user}','UserController@userinfo')->name('user.info');
     Route::get('/users/{user}','UserController@show')->name('users.show');
+
+    //查询单个用户下面的所有文章
+    Route::get('/userarticle/{user}','UserController@UserArticle')->name('user.Article');
     //查看所有话题
     Route::get('/topics','TopicController@index')->name('topic.index');
     //创建话题

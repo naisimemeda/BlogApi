@@ -49,7 +49,7 @@ class ExceptionReport
     //可以把常见异常放在这里
     public $doReport = [
         AuthenticationException::class => ['未授权',401],
-        ModelNotFoundException::class => ['该模型未找到',404],
+        ModelNotFoundException::class => ['该模型未找到',414],
         AuthorizationException::class => ['没有此权限',403],
         ValidationException::class => ['参数错误',400],
         UnauthorizedHttpException::class=>['未登录或登录状态失效',434],

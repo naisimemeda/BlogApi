@@ -45,8 +45,15 @@ class UserController extends Controller
         return $this->success(new UserResource($user));
     }
 
+    //查询单个用户 以及发布文章总数
     public function UserInfo(User $user){
         return $this->setStatusCode(201)->success($user->loadCount('article'));
+    }
+
+    //查询单个用户下面的所有文章
+    public function UserArticle(User $user){
+        $user = User::with('article')->find($user->id);
+        return $this->setStatusCode(201)->success(new UserResource($user));
     }
 
     public function update(UserRequest $request,User $user){
