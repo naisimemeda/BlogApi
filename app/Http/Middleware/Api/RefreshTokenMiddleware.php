@@ -45,7 +45,6 @@ class RefreshTokenMiddleware extends BaseMiddleware
 
                 //dd(2123);
             } catch (JWTException $exception) {
-                dd(321);
                 // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
                 throw new UnauthorizedHttpException('jwt-auth', $exception->getMessage());
             }

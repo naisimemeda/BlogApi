@@ -30,6 +30,8 @@ Route::namespace('Api')->middleware('cors')->group(function () {
     Route::post('topics','TopicController@store')->name('topic.store');
     //查询单条文章
     Route::get('/article/{articles}','ArticleController@index')->name('article.index');
+    //查出文章下面的评论
+    Route::get('/comment/{article}','CommentController@show')->name('comment.show');
     Route::middleware('api.refresh')->group(function () {
         Route::get('/users/info','UserController@info')->name('users.info');
         //修改个人资料
@@ -45,5 +47,7 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         Route::get('/article/like/{articles}','ArticleController@ArticleLike')->name('article.like');
         //取消点赞
         Route::get('/article/cancelike/{articles}','ArticleController@CancelLike')->name('like.cance');
+        //评论
+        Route::post('/comment/{article}','CommentController@articleStore')->name('article.comment');
     });
 });
