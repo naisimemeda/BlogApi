@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->text('content');
             $table->integer('user_id')->comment('用户id');
             $table->integer('comment_count')->default(0)->comment('评论数量');
-            $table->integer('up_count')->default(0)->comment('点赞');
+            $table->integer('like_count')->default(0)->comment('点赞');
             $table->timestamps();
         });
     }

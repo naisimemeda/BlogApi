@@ -36,11 +36,14 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         Route::post('/users/{user}','UserController@update')->name('users.update');
         Route::post('/upload/avatar','UserController@UploadAvatar')->name('users.avatar');
         Route::post('/password','UserController@Paword')->name('users.password');
-
         //创建文章
         Route::post('/article','ArticleController@store')->name('article.store');
         //修改文章
         Route::post('/article/{articles}','ArticleController@update')->name('article.update');
         Route::delete('/article/{articles}','ArticleController@delete')->name('article.delete');
+        //点赞文章
+        Route::get('/article/like/{articles}','ArticleController@ArticleLike')->name('article.like');
+        //取消点赞
+        Route::get('/article/cancelike/{articles}','ArticleController@CancelLike')->name('like.cance');
     });
 });
