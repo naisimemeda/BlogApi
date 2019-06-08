@@ -19,7 +19,7 @@ class CommentController extends Controller
     }
 
     public function show(Articles $article){
-        $res = Articles::with('user:id,avatar,name')->find($article->id);
+        $res = Articles::with('CommentUser')->find($article->id);
         return $this->setStatusCode(200)->success($res);
     }
 }
