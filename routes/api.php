@@ -49,5 +49,7 @@ Route::namespace('Api')->middleware('cors')->group(function () {
         Route::get('/article/cancelike/{articles}','ArticleController@CancelLike')->name('like.cance');
         //评论
         Route::post('/comment/{article}','CommentController@articleStore')->name('article.comment');
+        //删除评论
+        Route::delete('/comment/{comment}','CommentController@delete')->name('comment.delete');
     });
 });

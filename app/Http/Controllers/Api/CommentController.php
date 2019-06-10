@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\CommentRequest;
 use App\Models\Articles;
+use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -14,12 +16,22 @@ class CommentController extends Controller
             'content' => $request->get('content'),
             'user_id' => $user_id,
         ];
-        $article->comments()->create($data);
-        return $this->setStatusCode(200)->success('评论成功');
+        $res = $article->comments()->create($data);
+        return $this->setStatusCode(200)->success($res);
     }
 
     public function show(Articles $article){
-        $res = Articles::with('CommentUser')->find($article->id);
+        $where = [
+            'commentable_type' => 'App\Models\Articles',
+            'commentable_id' => $article->id
+        ];
+        $res = Comment::with('user')->where($where)->get();
         return $this->setStatusCode(200)->success($res);
+    }
+
+    public function delete(Comment $comment){
+        $this->authorize('delete', $comment);
+        $comment->delete();
+        return $this->setStatusCode(201)->success('成功');
     }
 }

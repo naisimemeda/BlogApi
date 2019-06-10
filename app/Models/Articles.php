@@ -26,8 +26,4 @@ class Articles extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function CommentUser(){
-        return $this->belongsToMany(Articles::class, 'comments', 'comments', 'user_id');
-    }
-
 }

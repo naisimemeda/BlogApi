@@ -19,4 +19,9 @@ class Comment extends Model
         return $this->morphToMany(Comment::class, 'Commentable');
     }
 
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+
 }
