@@ -13,6 +13,25 @@ class Articles extends Model
         'title', 'content', 'user_id', 'comment_count', 'up_count'
     ];
 
+    public function scopeWithOrder($query, $order)
+    {
+        // 不同的排序，使用不同的数据读取逻辑
+        switch ($order) {
+            case '1':
+                $query->orderBy('updated_at', 'desc');
+                break;
+            case '2':
+                $query->orderBy('like_count', 'desc');
+                break;
+            case '3':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case '4':
+                $query->where('comment_count', 0)->orderBy('created_at', 'desc');
+                break;
+        }
+        return $query->with('user');
+    }
     public function User()
     {
         return $this->belongsTo(User::class, 'user_id');

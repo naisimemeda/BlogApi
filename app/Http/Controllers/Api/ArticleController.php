@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
+
+    public function List(Request $request){
+        $res =  Articles::withOrder($request->order)->paginate(10);
+        return $this->setStatusCode(201)->success($res);
+    }
+
     public function store(ArticleRequest $request){
         $data = [
           'title' => $request->title,

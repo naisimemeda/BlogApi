@@ -22,6 +22,8 @@ Route::namespace('Api')->middleware('cors')->group(function () {
     Route::get('/userinfo/{user}','UserController@userinfo')->name('user.info');
     Route::get('/users/{user}','UserController@show')->name('users.show');
 
+    //查询所有文章
+    Route::get('/article/list','ArticleController@list')->name('article.list');
     //查询单个用户下面的所有文章
     Route::get('/userarticle/{user}','UserController@UserArticle')->name('user.Article');
     //查看所有话题
