@@ -18,6 +18,7 @@ class ArticleController extends Controller
     public function List(Request $request){
         $res =  Articles::withOrder($request->order)->paginate(10);
         return $this->setStatusCode(201)->success($res);
+
     }
 
     public function store(ArticleRequest $request){
@@ -65,5 +66,11 @@ class ArticleController extends Controller
             DB::table('like')->where($data)->delete();
         });
         return $this->setStatusCode(201)->success('成功');
+    }
+
+    public function Search(Request $request){
+        $Search = $request->search;
+        $res = Articles::withOrder($request->order)->where('title', 'like', '%'.$Search.'%')->get();
+        return $this->setStatusCode(201)->success($res);
     }
 }

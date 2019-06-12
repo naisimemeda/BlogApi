@@ -21,7 +21,8 @@ Route::namespace('Api')->middleware('cors')->group(function () {
     //查询单个用户 以及发布文章总数
     Route::get('/userinfo/{user}','UserController@userinfo')->name('user.info');
     Route::get('/users/{user}','UserController@show')->name('users.show');
-
+    //搜索
+    Route::get('/article/search','ArticleController@Search')->name('article.Search');
     //查询所有文章
     Route::get('/article/list','ArticleController@list')->name('article.list');
     //查询单个用户下面的所有文章

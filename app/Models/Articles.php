@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class Articles extends Model
 {
-
     protected $fillable = [
         'title', 'content', 'user_id', 'comment_count', 'up_count'
     ];
@@ -44,5 +44,6 @@ class Articles extends Model
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable');
     }
+
 
 }
