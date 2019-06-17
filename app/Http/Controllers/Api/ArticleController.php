@@ -51,19 +51,19 @@ class ArticleController extends Controller
     public function ArticleLike(Articles $articles){
         $user_id = User::UserID();
         $articles->increment('like_count');
-        event(new ArticleLike($articles->id, $user_id));
+        $isLike = $articles->isLike($user_id);
+        if(!$isLike){
+            $articles->UpLike($user_id);
+        }
+//        event(new ArticleLike($articles->id, $user_id));
         return $this->setStatusCode(201)->success('成功');
     }
 
     public function CancelLike(Articles $articles){
         $user_id = User::UserID();
-        $data = [
-            'article_id' => $articles->id,
-            'user_id' => $user_id,
-        ];
-        DB::transaction(function ($query) use ($articles, $data){
+        DB::transaction(function ($query) use ($articles, $user_id){
             $articles->decrement('like_count');
-            DB::table('like')->where($data)->delete();
+            $articles->unLike($user_id);
         });
         return $this->setStatusCode(201)->success('成功');
     }

@@ -38,11 +38,32 @@ class Articles extends Model
     }
 
     public function Like(){
-        return $this->belongsToMany(User::class, 'like', 'article_id', 'user_id');
+        return $this->belongsToMany(User::class, 'like', 'article_id', 'user_id')->withTimeStamps ();
     }
 
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function UpLike($user_id)
+    {
+        if ( ! is_array($user_id)) {
+            $user_ids = compact('user_id');
+        }
+        $this->Like()->sync($user_id, false);
+    }
+
+    public function unLike($user_id)
+    {
+        if ( ! is_array($user_id)) {
+            $user_id = compact('user_id');
+        }
+        $this->Like()->detach($user_id);
+    }
+
+    public function isLike($user_id)
+    {
+        return $this->Like->contains($user_id);
     }
 
 
