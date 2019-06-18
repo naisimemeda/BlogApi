@@ -48,7 +48,7 @@ class Articles extends Model
     public function UpLike($user_id)
     {
         if ( ! is_array($user_id)) {
-            $user_ids = compact('user_id');
+            $user_id = compact('user_id');
         }
         $this->Like()->sync($user_id, false);
     }
