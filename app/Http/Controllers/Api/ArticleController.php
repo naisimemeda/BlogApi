@@ -70,7 +70,12 @@ class ArticleController extends Controller
 
     public function Search(Request $request){
         $Search = $request->search;
-        $res = Articles::withOrder($request->order)->where('title', 'like', '%'.$Search.'%')->get();
+        $like = '%'.$Search.'%';
+        $builder = Articles::query();
+        $res = $builder->withOrder($request->order)->where(function ($query) use ($like){
+            $query->where('title', 'like', $like)
+                ->orWhere('content', 'like', $like);
+        })->get();
         return $this->setStatusCode(201)->success($res);
     }
 }
