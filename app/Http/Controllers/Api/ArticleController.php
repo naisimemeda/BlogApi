@@ -69,13 +69,14 @@ class ArticleController extends Controller
     }
 
     public function Search(Request $request){
-        $Search = $request->search;
-        $like = '%'.$Search.'%';
         $builder = Articles::query();
-        $res = $builder->withOrder($request->order)->where(function ($query) use ($like){
-            $query->where('title', 'like', $like)
-                ->orWhere('content', 'like', $like);
-        })->get();
+        if($search = $request->input('search', '')){
+            $like = '%'.$search.'%';
+            $res = $builder->withOrder($request->order)->where(function ($query) use ($like){
+                $query->where('title', 'like', $like)
+                    ->orWhere('content', 'like', $like);
+            })->get();
+        }
         return $this->setStatusCode(201)->success($res);
     }
 }
