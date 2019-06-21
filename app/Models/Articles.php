@@ -16,7 +16,7 @@ class Articles extends Model
     public function scopeWithOrder($query, $order)
     {
         // 不同的排序，使用不同的数据读取逻辑
-        switch ($order) {
+        switch ($order) { 
             case '1':
                 $query->orderBy('updated_at', 'desc');
                 break;
