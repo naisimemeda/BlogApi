@@ -11,22 +11,18 @@ use Illuminate\Support\Facades\DB;
 class CommentController extends Controller
 {
     public function articleStore(Articles $article, CommentRequest $request) {
-        $user_id = User::UserID();
-        $data = [
+        $comments = New Comment([
             'content' => $request->get('content'),
-            'user_id' => $user_id,
-        ];
-        $res = $article->comments()->create($data);
-        return $this->setStatusCode(200)->success($res);
+        ]);
+        $comments->commentable()->associate($article);
+        $comments->user()->associate(User::UserInfo());
+        $comments->save();
+        return $this->setStatusCode(200)->success('成功');
     }
 
     public function show(Articles $article){
-        $where = [
-            'commentable_type' => 'App\Models\Articles',
-            'commentable_id' => $article->id
-        ];
-        $res = Comment::with('user')->where($where)->get();
-        return $this->setStatusCode(200)->success($res);
+        $result = $article->comments()->with(['user'])->get();
+        return $this->setStatusCode(200)->success($result);
     }
 
     public function delete(Comment $comment){

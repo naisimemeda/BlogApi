@@ -44,6 +44,10 @@ class User extends Authenticatable implements JWTSubject
         return  Auth::guard('api')->user()->id;
     }
 
+    public static function UserInfo(){
+        return  Auth::guard('api')->user();
+    }
+
     public function article()
     {
         return $this->hasMany(Articles::class, 'user_id');

@@ -16,23 +16,23 @@ class ArticleController extends Controller
 {
 
     public function List(Request $request){
-        $res =  Articles::withOrder($request->order)->paginate(15);
-        return $this->setStatusCode(201)->success($res);
+        $result =  Articles::withOrder($request->order)->paginate(15);
+        return $this->setStatusCode(201)->success($result);
 
     }
 
     public function store(ArticleRequest $request){
-        $data = [
-          'title' => $request->title,
-          'content' => $request->get('content'),
-          'user_id' => User::UserID()
-        ];
-        $res = Articles::create($data);
-        return $this->setStatusCode(201)->success($res);
+        $article = New Articles([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+        $article->user()->associate(User::UserInfo());
+        $article->save();
+        return $this->setStatusCode(201)->success($article);
     }
 
     public function index(Articles $articles){
-        $res = Articles::with(['user', 'like:user_id,avatar'])->find($articles->id);
+        $res = Articles::with(['user', 'like:user_id,avatar', 'comments.user'])->find($articles->id);
         return $this->setStatusCode(200)->success($res);
     }
 
